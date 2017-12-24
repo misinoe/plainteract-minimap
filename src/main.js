@@ -5,7 +5,7 @@ export default class Minimap {
 
     this.style = {
       background: {
-        fillStyle: 'rgba(0, 255, 0, 0.5)',
+        fillStyle: 'rgba(0, 0, 0, 0.5)',
         strokeStyle: 'rgba(0, 0, 0, 0.9)',
         lineWidth: 1,
       },
@@ -14,6 +14,12 @@ export default class Minimap {
         fillStyle: 'rgba(255, 255, 255, 0.2)',
         strokeStyle: 'rgba(255, 255, 255, 0.5)',
         lineWidth: 1,
+      },
+      nodeActive: {
+        radius: 5,
+        fillStyle: 'rgba(255, 255, 255, 0.5)',
+        strokeStyle: 'rgba(255, 255, 255, 0.8)',
+        lineWidth: 3,
       },
       corn: {
       },
@@ -52,6 +58,7 @@ export default class Minimap {
     const context = canvas.getContext('2d');
 
     const {width, height} = data;
+    context.clearRect(1, 1, width, height);
     context.fillStyle = this.style.background.fillStyle;
     context.fillRect(1, 1, width, height);
 
@@ -70,11 +77,18 @@ export default class Minimap {
         y,
         } = position;
 
+      let nodeStyle;
       if (this.activeName === name) {
         this.drawCorn({x, y, context,});
+        nodeStyle = this.style.nodeActive;
+      } else {
+        nodeStyle = this.style.node;
       }
 
       context.beginPath();
+      context.fillStyle = nodeStyle.fillStyle;
+      context.strokeStyle = nodeStyle.strokeStyle;
+      context.lineWidth = nodeStyle.lineWidth;
       context.ellipse(
         x,
         y,
@@ -84,6 +98,7 @@ export default class Minimap {
         0,
         Math.PI * 2,
         );
+      context.fill();
       context.stroke();
     }
   }
@@ -108,8 +123,8 @@ export default class Minimap {
 
     context.beginPath();
     const gradient = context.createRadialGradient(x, y, 0, x + dx, y + dy, radius);
-    gradient.addColorStop(0, 'rgba(128, 128, 255, 1.0)');
-    gradient.addColorStop(0.5, 'rgba(128, 128, 255, 0.0)');
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 1.0)');
+    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.0)');
     context.fillStyle = gradient;
     context.moveTo(x, y);
     context.lineTo(x + lx, y + ly);
