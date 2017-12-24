@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<body>
+  <script src="lib/plainteract-minimap.js"></script>
+  <script type="text/javascript">
+    const minimap = new Minimap();
+    document.body.appendChild(minimap.canvas);
+    setInterval(() => {
+      minimap.direction += 1;
+      minimap.perspective = Math.random() * 90;
+    minimap.update();
+    }, 10)
+  </script>
+</body>
+</html>
