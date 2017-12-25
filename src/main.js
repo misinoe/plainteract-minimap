@@ -1,9 +1,10 @@
 const degToRad = Math.PI / 180;
+import merge from 'merge';
 
 export default class Minimap {
-  constructor(options) {
+  constructor(options = {}) {
 
-    this.style = {
+    const style = merge.recursive(true, {
       background: {
         fillStyle: 'rgba(0, 0, 0, 0.5)',
         strokeStyle: 'rgba(0, 0, 0, 0.9)',
@@ -23,7 +24,8 @@ export default class Minimap {
       },
       corn: {
       },
-    };
+    }, options.style || {});
+    this.style = style;
 
     const canvas = this.canvas = document.createElement('canvas');
 

@@ -3,7 +3,13 @@
 <body>
   <script src="lib/plainteract-minimap.js"></script>
   <script type="text/javascript">
-    const minimap = new Minimap();
+    const minimap = new Minimap({
+      style: {
+        background: {
+          fillStyle: 'red',
+        }
+      }
+    });
     document.body.appendChild(minimap.canvas);
     setInterval(() => {
       minimap.direction += 1;

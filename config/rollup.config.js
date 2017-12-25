@@ -1,6 +1,6 @@
 import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
-// import common from 'rollup-plugin-commonjs'
+import common from 'rollup-plugin-commonjs'
 import uglify from 'rollup-plugin-uglify';
 
 export default {
@@ -11,8 +11,10 @@ export default {
     format: 'umd',
   },
   plugins: [
-    // resolve(),
-    // common(),
+    resolve({
+      jsnext: true,
+    }),
+    common(),
     babel({
       exclude: 'node_modules/**',
       runtimeHelpers: true,
