@@ -2,7 +2,7 @@ const degToRad = Math.PI / 180;
 import merge from 'merge';
 
 export default class Minimap {
-  constructor(options = {}) {
+  constructor(data = {}, options = {}) {
 
     const style = merge.recursive(true, {
       background: {
@@ -33,7 +33,7 @@ export default class Minimap {
     this.perspective = 90;
     this.activeName = 'position001';
 
-    this.data = {
+    this.data = merge.recursive(true, {
       width: 400,
       height: 300,
       nodes: [
@@ -52,7 +52,7 @@ export default class Minimap {
           },
         },
       ],
-    };
+    }, data);
   }
 
   update() {
