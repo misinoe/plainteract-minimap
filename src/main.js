@@ -69,7 +69,7 @@ export default class Minimap {
     const {canvas, data} = this;
     const context = canvas.getContext('2d');
 
-    const {viewRect: rect, field} = data;
+    const {viewRect: rect, fieldRect: field} = data;
     const fieldBottom = field.y + field.height;
     const fieldRight = field.x + field.width;
 
