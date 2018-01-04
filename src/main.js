@@ -40,7 +40,7 @@ export default class Minimap {
         width: 400,
         height: 300,
       },
-      crop: {
+      field: {
         x: 0,
         y: 0,
         width: 400,
@@ -69,9 +69,9 @@ export default class Minimap {
     const {canvas, data} = this;
     const context = canvas.getContext('2d');
 
-    const {viewRect: rect, crop} = data;
-    const cropBottom = crop.y + crop.height;
-    const cropRight = crop.x + crop.width;
+    const {viewRect: rect, field} = data;
+    const fieldBottom = field.y + field.height;
+    const fieldRight = field.x + field.width;
 
     context.clearRect(1, 1, rect.width, rect.height);
     context.fillStyle = this.style.background.fillStyle;
@@ -92,12 +92,12 @@ export default class Minimap {
         y: nodeY,
         } = position;
 
-      if (nodeX <= crop.x || nodeY <= crop.y || nodeX >= cropRight || nodeY >= cropBottom) {
+      if (nodeX <= field.x || nodeY <= field.y || nodeX >= fieldRight || nodeY >= fieldBottom) {
         continue;
       }
 
-      const normalX = (position.x - crop.x) / crop.width;
-      const normalY = (position.y - crop.y) / crop.height;
+      const normalX = (position.x - field.x) / field.width;
+      const normalY = (position.y - field.y) / field.height;
 
       const x = normalX * rect.width;
       const y = normalY * rect.height;
