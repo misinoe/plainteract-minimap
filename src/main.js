@@ -20,6 +20,12 @@ export default class Minimap {
         radius: 5,
         fillStyle: 'rgba(255, 255, 255, 0.5)',
         strokeStyle: 'rgba(255, 255, 255, 0.8)',
+        lineWidth: 4,
+      },
+      nodeHighlight: {
+        radius: 5,
+        fillStyle: 'rgba(200, 240, 255, 0.7)',
+        strokeStyle: 'rgba(64, 128, 255, 0.9)',
         lineWidth: 3,
       },
       corn: {
@@ -34,6 +40,7 @@ export default class Minimap {
     this.direction = 0;
     this.perspective = 90;
     this.activeName = '';
+    this.highlightName = '';
   }
 
   setMinimapData(data = {}) {
@@ -41,8 +48,8 @@ export default class Minimap {
       viewRect: {
         x: 0,
         y: 0,
-        width: 400,
-        height: 300,
+        width: 100,
+        height: 100,
       },
       fieldRect: {
         x: 0,
@@ -53,6 +60,12 @@ export default class Minimap {
       nodes: [
       ],
     }, data);
+
+    const {canvas} = this;
+    const {viewRect: rect} = this.data;
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+
     this.update();
   }
 
@@ -83,20 +96,23 @@ export default class Minimap {
         y: nodeY,
         } = position;
 
-      if (nodeX <= field.x || nodeY <= field.y || nodeX >= fieldRight || nodeY >= fieldBottom) {
-        continue;
-      }
+      // if (nodeX > field.x && nodeX < fieldRight && nodeY > field.y && nodeY < fieldBottom) {
+      // }
 
       const normalX = (position.x - field.x) / field.width;
       const normalY = (position.y - field.y) / field.height;
 
-      const x = normalX * rect.width;
-      const y = normalY * rect.height;
+      const scale = Math.min(rect.width / field.width, rect.height / field.height);
+
+      const x = normalX * field.width * scale;
+      const y = normalY * field.height * scale;
 
       let nodeStyle;
       if (this.activeName === name) {
         this.drawCorn({x, y, context,});
         nodeStyle = this.style.nodeActive;
+      } else if (this.highlightName === name) {
+        nodeStyle = this.style.nodeHighlight;
       } else {
         nodeStyle = this.style.node;
       }

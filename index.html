@@ -10,12 +10,54 @@
         }
       }
     });
+    minimap.setMinimapData({
+      viewRect: {
+        x: 0,
+        y: 0,
+        width: 500,
+        height: 500,
+      },
+      fieldRect: {
+        x: 100,
+        y: 100,
+        width: 100,
+        height: 100,
+      },
+      nodes: [
+        {
+          name: 'position001',
+          position: {
+            x: 150,
+            y: 150,
+          },
+        },
+        {
+          name: 'position002',
+          position: {
+            x: 180,
+            y: 180,
+          },
+        },
+        {
+          name: 'hightlightPlace',
+          position: {
+            x: 180,
+            y: 130,
+          },
+        },
+      ],
+    });
+    minimap.highlightName = 'hightlightPlace';
+    let names = ['position001', 'position002'];
     document.body.appendChild(minimap.canvas);
     setInterval(() => {
       minimap.direction += 1;
       minimap.perspective = Math.random() * 90;
-    minimap.update();
-    }, 10)
+      minimap.update();
+    }, 10);
+    setInterval(() => {
+      minimap.activeName = names[names.length * Math.random() << 0];
+    }, 100);
   </script>
 </body>
 </html>
