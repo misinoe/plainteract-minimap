@@ -40,7 +40,7 @@ export default class Minimap {
         width: 400,
         height: 300,
       },
-      field: {
+      fieldRect: {
         x: 0,
         y: 0,
         width: 400,
