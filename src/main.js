@@ -29,10 +29,14 @@ export default class Minimap {
 
     const canvas = this.canvas = document.createElement('canvas');
 
+    this.setMinimapData(data);
+
     this.direction = 0;
     this.perspective = 90;
-    this.activeName = 'position001';
+    this.activeName = '';
+  }
 
+  setMinimapData(data = {}) {
     this.data = merge.recursive(true, {
       viewRect: {
         x: 0,
@@ -47,20 +51,20 @@ export default class Minimap {
         height: 300,
       },
       nodes: [
-        {
-          name: 'position001',
-          position: {
-            x: 150,
-            y: 100,
-          },
-        },
-        {
-          name: 'position002',
-          position: {
-            x: 150,
-            y: 130,
-          },
-        },
+        // {
+        //   name: 'position001',
+        //   position: {
+        //     x: 150,
+        //     y: 100,
+        //   },
+        // },
+        // {
+        //   name: 'position002',
+        //   position: {
+        //     x: 150,
+        //     y: 130,
+        //   },
+        // },
       ],
     }, data);
   }
