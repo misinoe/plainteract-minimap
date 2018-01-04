@@ -51,22 +51,9 @@ export default class Minimap {
         height: 300,
       },
       nodes: [
-        // {
-        //   name: 'position001',
-        //   position: {
-        //     x: 150,
-        //     y: 100,
-        //   },
-        // },
-        // {
-        //   name: 'position002',
-        //   position: {
-        //     x: 150,
-        //     y: 130,
-        //   },
-        // },
       ],
     }, data);
+    this.update();
   }
 
   update() {
