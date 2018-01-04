@@ -51,20 +51,33 @@ export default class Minimap {
         width: 100,
         height: 100,
       },
-      fieldRect: {
-        x: 0,
-        y: 0,
-        width: 400,
-        height: 300,
-      },
+      fieldRect: 'auto',
       nodes: [
       ],
     }, data);
 
+    if (this.data.fieldRect === 'auto') {
+      let x = 0xffffff, y = 0xffffff, right = 0, bottom = 0;
+      this.data.nodes.forEach((node) => {
+        const {position} = node;
+        x = Math.min(position.x, x);
+        y = Math.min(position.y, y);
+        right = Math.max(position.x, right);
+        bottom = Math.max(position.y, bottom);
+      });
+      this.data.fieldRect = {
+        x: x - 10,
+        y: y - 10,
+        width: right - x + 20,
+        height: bottom - y + 20,
+      };
+    }
+
     const {canvas} = this;
-    const {viewRect: rect} = this.data;
-    canvas.width = rect.width;
-    canvas.height = rect.height;
+    const {viewRect} = this.data;
+
+    canvas.width = viewRect.width;
+    canvas.height = viewRect.height;
 
     this.update();
   }
@@ -136,7 +149,8 @@ export default class Minimap {
   }
 
   drawCorn({x, y, context}) {
-    const radius = 100;
+    const {data} = this;
+    const radius = (data.viewRect.width + data.viewRect.height) / 2;
 
     const {direction} = this;
     const directionRad = direction * degToRad;
