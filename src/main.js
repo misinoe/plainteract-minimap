@@ -34,8 +34,18 @@ export default class Minimap {
     this.activeName = 'position001';
 
     this.data = merge.recursive(true, {
-      width: 400,
-      height: 300,
+      viewRect: {
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 300,
+      },
+      crop: {
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 300,
+      },
       nodes: [
         {
           name: 'position001',
@@ -59,10 +69,13 @@ export default class Minimap {
     const {canvas, data} = this;
     const context = canvas.getContext('2d');
 
-    const {width, height} = data;
-    context.clearRect(1, 1, width, height);
+    const {viewRect: rect, crop} = data;
+    const cropBottom = crop.y + crop.height;
+    const cropRight = crop.x + crop.width;
+
+    context.clearRect(1, 1, rect.width, rect.height);
     context.fillStyle = this.style.background.fillStyle;
-    context.fillRect(1, 1, width, height);
+    context.fillRect(1, 1, rect.width, rect.height);
 
     const {style} = this;
     const {radius} = style.node;
@@ -75,9 +88,19 @@ export default class Minimap {
         } = node;
 
       const {
-        x,
-        y,
+        x: nodeX,
+        y: nodeY,
         } = position;
+
+      if (nodeX <= crop.x || nodeY <= crop.y || nodeX >= cropRight || nodeY >= cropBottom) {
+        continue;
+      }
+
+      const normalX = (position.x - crop.x) / crop.width;
+      const normalY = (position.y - crop.y) / crop.height;
+
+      const x = normalX * rect.width;
+      const y = normalY * rect.height;
 
       let nodeStyle;
       if (this.activeName === name) {
