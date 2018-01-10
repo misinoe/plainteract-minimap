@@ -6,6 +6,11 @@
     const minimap = new Minimap({
       width: 400,
       height: 300
+    }, {
+      baseDir: '',
+      nodeStyle: {
+        circleRadius: 10,
+      }
     });
     document.body.appendChild(minimap.getView());
     minimap.setMinimapData({
@@ -47,8 +52,6 @@
           },
         },
       ],
-    }, {
-      baseDir: '/'
     });
     minimap.highlightName = 'hightlightPlace';
     let names = ['position001', 'position002'];

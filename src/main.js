@@ -80,13 +80,14 @@ export default class Minimap {
     field.addChild(imageContainer);
 
     const nodeStyle = this.nodeStyle = merge.recursive(true, {
-      lineWidth: 3,
+      lineWidth: 1,
       lineColor: 0xffffff,
       lineAlpha: 0.8,
       fillColor: 0xffffff,
       fillAlpha: 0.5,
       circleRadius: 5,
       }, options.nodeStyle || {});
+    console.log(options, nodeStyle);
     const nodeContainer = this.nodeContainer = new Container();
     field.addChild(nodeContainer);
 
@@ -281,7 +282,7 @@ class Node extends Container {
   constructor(style = {}) {
     super();
     const graphics = this.graphics = new Graphics();
-    this.style = {};
+    this.style = style;
     this.addChild(graphics);
 
     this.draw();
