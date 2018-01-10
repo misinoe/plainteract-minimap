@@ -70,8 +70,11 @@ export default class Minimap {
     this.background = new Graphics();
     stage.addChild(this.background);
 
+    const centering = this.centering = new Container();
+    stage.addChild(centering);
+
     const field = this.field = new Container();
-    stage.addChild(field);
+    centering.addChild(field);
 
     const imageContainer = this.imageContainer = new Container();
     field.addChild(imageContainer);
@@ -134,6 +137,48 @@ export default class Minimap {
       if (node.name !== name) continue;
       node.scale.set(1.5, 1.5);
     }
+  }
+
+  setAdjustmentPositionForField() {
+    const {nodeContainer} = this;
+    const {children} = nodeContainer;
+    const cushion = 20;
+
+    const {min, max} = Math;
+    let minX = 0xffffff;
+    let minY = 0xffffff;
+    let maxX = -0xffffff;
+    let maxY = -0xffffff;
+
+    children.forEach((node) => {
+      const {x, y} = node.position;
+      minX = min(minX, x);
+      minY = min(minY, y);
+      maxX = max(maxX, x);
+      maxY = max(maxY, y);
+    });
+
+    minX -= cushion;
+    minY -= cushion;
+    maxX += cushion;
+    maxY += cushion;
+
+    const {
+      field,
+      centering,
+      width,
+      height,
+      } = this;
+    centering.x = width / 2;
+    centering.y = height / 2;
+    field.x = -minX - (maxX - minX) / 2;
+    field.y = -minY - (maxY - minY) / 2;
+
+    const scaleX = width / (maxX - minX);
+    const scaleY = height / (maxY - minY);
+    const scale = min(scaleX, scaleY);
+
+    centering.scale.set(scale, scale);
   }
 
   setCornPositionByNodeName(name) {
@@ -227,6 +272,8 @@ export default class Minimap {
       field: fieldOrder = null,
       } = minimapData;
     if (fieldOrder) Minimap.applyPositionDatum(fieldOrder, field);
+
+    this.setAdjustmentPositionForField();
   }
 }
 
