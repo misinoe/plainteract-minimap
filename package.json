@@ -1,6 +1,6 @@
 {
   "name": "plainteract-minimap",
-  "version": "4.1.2",
+  "version": "4.1.3",
   "main": "./lib/plainteract-minimap.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
