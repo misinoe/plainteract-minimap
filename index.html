@@ -12,6 +12,17 @@
     });
     document.body.appendChild(minimap.getView());
     minimap.setMinimapData({
+      images: [
+        {
+          path: 'map.png',
+          x: 100,
+          width: 500,
+          height: 400,
+          pivotX: 250,
+          pivotY: 200,
+          rotation: 1
+        }
+      ],
       nodes: [
         {
           name: 'position001',
@@ -35,9 +46,18 @@
           },
         },
       ],
+    }, {
+      baseDir: '/'
     });
     minimap.highlightName = 'hightlightPlace';
     let names = ['position001', 'position002'];
+
+    minimap.setCornPositionByNodeName('position001');
+    minimap.activeNodeName = 'position001';
+
+    setInterval(() => {
+      minimap.cornAngle += 0.5;
+    }, 13);
   </script>
 </body>
 </html>
