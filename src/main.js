@@ -87,7 +87,6 @@ export default class Minimap {
       fillAlpha: 0.5,
       circleRadius: 5,
       }, options.nodeStyle || {});
-    console.log(options, nodeStyle);
     const nodeContainer = this.nodeContainer = new Container();
     field.addChild(nodeContainer);
 
