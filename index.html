@@ -10,14 +10,8 @@
         }
       }
     });
+    document.body.appendChild(minimap.getView());
     minimap.setMinimapData({
-      viewRect: {
-        x: 0,
-        y: 0,
-        width: 500,
-        height: 500,
-      },
-      fieldRect: 'auto',
       nodes: [
         {
           name: 'position001',
@@ -44,15 +38,6 @@
     });
     minimap.highlightName = 'hightlightPlace';
     let names = ['position001', 'position002'];
-    document.body.appendChild(minimap.canvas);
-    setInterval(() => {
-      minimap.direction += 1;
-      minimap.perspective = Math.random() * 90;
-      minimap.update();
-    }, 10);
-    setInterval(() => {
-      minimap.activeName = names[names.length * Math.random() << 0];
-    }, 100);
   </script>
 </body>
 </html>
