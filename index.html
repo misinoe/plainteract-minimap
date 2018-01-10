@@ -4,14 +4,19 @@
   <script src="lib/plainteract-minimap.js"></script>
   <script type="text/javascript">
     const minimap = new Minimap({
-      style: {
-        background: {
-          fillStyle: 'red',
-        }
-      }
+      width: 400,
+      height: 300
     });
     document.body.appendChild(minimap.getView());
     minimap.setMinimapData({
+      background: {
+        color: 0x000000,
+        alpha: 0.5
+      },
+      field: {
+        scaleX: 1.0,
+        scaleY: 1.0
+      },
       images: [
         {
           path: 'map.png',

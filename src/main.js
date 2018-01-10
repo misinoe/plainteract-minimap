@@ -29,9 +29,46 @@ export default class Minimap {
     return (baseDir ? baseDir + '/' : '') + path;
   }
 
+  static applyPositionDatum(order, container) {
+    const {
+      x = null,
+      y = null,
+      width = null,
+      height = null,
+      scaleX = null,
+      scaleY = null,
+      pivotX = null,
+      pivotY = null,
+      rotation = null,
+      path,
+      } = order;
+
+    if (x) container.x = x;
+    if (y) container.y = y;
+    if (width) container.width = width;
+    if (height) container.height = height;
+    if (pivotX) container.pivot.x = pivotX;
+    if (pivotY) container.pivot.y = pivotY;
+    if (rotation) container.rotation = rotation;
+    if (scaleX) container.scale.x = scaleX;
+    if (scaleY) container.scale.y = scaleY;
+  }
+
   constructor(data = {}, options = {}) {
-    const application = this.application = new Application();
+    const {
+      width = 400,
+      height = 300,
+      } = data;
+    this.width = width;
+    this.height = height;
+
+    const application = this.application = new Application(width, height, {
+      transparent: true,
+    });
     const {stage} = application;
+
+    this.background = new Graphics();
+    stage.addChild(this.background);
 
     const field = this.field = new Container();
     stage.addChild(field);
@@ -119,6 +156,7 @@ export default class Minimap {
 
   setCornFov(fov) {
     this.corn.style.fov = fov;
+    this.corn.draw();
   }
 
   setCornPosition({x = 0, y = 0}) {
@@ -139,34 +177,34 @@ export default class Minimap {
       images = [],
       } = minimapData;
 
+    const {background = null} = minimapData;
+    if (background) {
+      const {
+        color = 0x000000,
+        alpha = 0.7,
+        } = background;
+
+      const {
+        background: graphics,
+        } = this;
+
+      const {
+        width,
+        height
+        } = this;
+
+      graphics.clear();
+      graphics.beginFill(color, alpha);
+      graphics.drawRect(0, 0, width, height);
+    }
+
     imageContainer.removeChildren();
     images.forEach((imageData) => {
-      const {
-        x = 0,
-        y = 0,
-        width = null,
-        height = null,
-        scaleX = null,
-        scaleY = null,
-        pivotX = null,
-        pivotY = null,
-        rotation = null,
-        path,
-        } = imageData;
-
+      const {path} = imageData;
       const sprite = Sprite.fromImage(Minimap.normalizePath(path), 'auto');
-
-      if (x) sprite.x = x;
-      if (y) sprite.y = y;
-      if (width) sprite.width = width;
-      if (height) sprite.height = height;
-      if (pivotX) sprite.pivot.x = pivotX;
-      if (pivotY) sprite.pivot.y = pivotY;
-      if (rotation) sprite.rotation = rotation;
-      if (scaleX) sprite.scale.x = scaleX;
-      if (scaleY) sprite.scale.y = scaleY;
-
       imageContainer.addChild(sprite);
+
+      Minimap.applyPositionDatum(imageData, sprite);
     });
 
     nodes.forEach((nodeData) => {
@@ -183,6 +221,12 @@ export default class Minimap {
       node.position = position;
       nodeContainer.addChild(node);
     });
+
+    const {field} = this;
+    const {
+      field: fieldOrder = null,
+      } = minimapData;
+    if (fieldOrder) Minimap.applyPositionDatum(fieldOrder, field);
   }
 }
 
