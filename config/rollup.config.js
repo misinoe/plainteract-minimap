@@ -1,7 +1,9 @@
 import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
 import common from 'rollup-plugin-commonjs'
-import uglify from 'rollup-plugin-uglify';
+// import uglify from 'rollup-plugin-uglify';
+// import uglifyEs from 'uglify-es';
+import uglifyEs from 'rollup-plugin-uglify-es';
 
 export default {
   input: 'src/main.js',
@@ -19,6 +21,6 @@ export default {
       exclude: 'node_modules/**',
       runtimeHelpers: true,
       }),
-    uglify({}),
+    uglifyEs(),
   ],
 };
