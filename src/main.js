@@ -117,6 +117,10 @@ export default class Minimap {
     this.setCornPosition(position);
   }
 
+  setCornFov(fov) {
+    this.corn.style.fov = fov;
+  }
+
   setCornPosition({x = 0, y = 0}) {
     this.corn.position.set(x, y);
   }
@@ -227,11 +231,14 @@ class Corn extends Container {
   draw() {
     const {graphics} = this;
 
-    const halfAngle = (45 * degToRad) / 2;
     const radius = 4096;
     const {cos, sin} = Math;
 
     const {style} = this;
+    const {
+      fov = 65,
+      } = style;
+    const halfAngle = (fov * degToRad) / 2;
     const {
       lineWidth = 2,
       lineColor = 0xffffff,
