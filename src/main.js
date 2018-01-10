@@ -222,13 +222,13 @@ export default class Minimap {
       images = [],
       } = minimapData;
 
-    const {background = null} = minimapData;
-    if (background) {
-      const {
-        color = 0x000000,
-        alpha = 0.7,
-        } = background;
+    const {background} = minimapData;
+    const {
+      color = 0x000000,
+      alpha = 0.6,
+      } = background || {};
 
+    if (background !== null) {
       const {
         background: graphics,
         } = this;
@@ -293,11 +293,11 @@ class Node extends Container {
       } = this;
 
     const {
-      lineWidth = 3,
+      lineWidth = 2,
       lineColor = 0xffffff,
       lineAlpha = 0.8,
       fillColor = 0xffffff,
-      fillAlpha = 0.5,
+      fillAlpha = 0.6,
       circleRadius = 5,
       } = style;
 
@@ -331,7 +331,7 @@ class Corn extends Container {
       } = style;
     const halfAngle = (fov * degToRad) / 2;
     const {
-      lineWidth = 2,
+      lineWidth = 1,
       lineColor = 0xffffff,
       lineAlpha = 0.4,
       fillColor = 0xffffff,
