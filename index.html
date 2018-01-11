@@ -9,7 +9,7 @@
     }, {
       baseDir: '',
       nodeStyle: {
-        circleRadius: 10,
+        size: 10,
       }
     });
     document.body.appendChild(minimap.getView());
@@ -61,6 +61,35 @@
             lineWidth: 5,
             lineColor: 0xff0000,
             fillColor: 0x00ff00,
+          }
+        },
+        {
+          name: 'arrowDemo',
+          type: 'arrow',
+          position: {
+            x: 500,
+            y: 300,
+          },
+          style: {
+            lineWidth: 5,
+            lineColor: 0x0000cc,
+            fillColor: 0x00ff00,
+            size: 20,
+          }
+        },
+        {
+          name: 'arrowDemo',
+          type: 'arrow',
+          position: {
+            x: 200,
+            y: 300,
+          },
+          style: {
+            lineWidth: 5,
+            lineColor: 0x0000cc,
+            fillColor: 0x00ff00,
+            rotation: 45,
+            size: 20,
           }
         },
       ],
