@@ -210,10 +210,15 @@ export default class Minimap {
         break;
       }
     }
-    if (!match) return;
 
-    const position = match.position;
-    this.setCornPosition(position);
+    const {corn} = this;
+    if (match) {
+      corn.visible = true;
+      const position = match.position;
+      this.setCornPosition(position);
+    } else {
+      corn.visible = false;
+    }
   }
 
   setCornFov(fov) {
