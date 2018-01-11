@@ -276,6 +276,7 @@ export default class Minimap {
           y: 0,
           },
         name = null,
+        names = null,
         style = null,
         type = 'node',
         } = nodeData;
@@ -287,6 +288,7 @@ export default class Minimap {
         case 'arrow':
           node = new Arrow(graphicsStyle);
           node.name = name;
+          node.names = names;
           Minimap.applyPositionDatum(position, node);
           nodeContainer.addChild(node);
           break;
@@ -294,6 +296,7 @@ export default class Minimap {
         default :
           node = new Node(graphicsStyle);
           node.name = name;
+          node.names = names;
           Minimap.applyPositionDatum(position, node);
           nodeContainer.addChild(node);
           break;
