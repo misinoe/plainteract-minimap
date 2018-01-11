@@ -204,6 +204,11 @@ export default class Minimap {
         match = child;
         break;
       }
+
+      if (child.names instanceof Array && child.names.includes(name)) {
+        match = child;
+        break;
+      }
     }
     if (!match) return;
 
