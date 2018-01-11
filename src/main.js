@@ -211,8 +211,8 @@ export default class Minimap {
   setMinimapData(minimapData = {}) {
     const {
       nodeContainer,
-      nodeStyle,
       imageContainer,
+      nodeStyle,
       } = this;
 
     nodeContainer.removeChildren();
@@ -259,9 +259,10 @@ export default class Minimap {
           y: 0,
           },
         name = null,
+        style = null,
         } = nodeData;
 
-      const node = new Node(nodeStyle);
+      const node = new Node(style ? merge.recursive(true, nodeStyle, style) : nodeStyle);
       node.name = name;
       node.position = position;
       nodeContainer.addChild(node);
