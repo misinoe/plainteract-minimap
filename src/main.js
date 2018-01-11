@@ -272,18 +272,17 @@ export default class Minimap {
         case 'arrow':
           node = new Arrow(graphicsStyle);
           node.name = name;
-          node.position = position;
+          Minimap.applyPositionDatum(position, node);
           nodeContainer.addChild(node);
           break;
         case 'node':
         default :
           node = new Node(graphicsStyle);
           node.name = name;
-          node.position = position;
+          Minimap.applyPositionDatum(position, node);
           nodeContainer.addChild(node);
           break;
       }
-      Minimap.applyPositionDatum(graphicsStyle, node);
     });
 
     const {field} = this;
