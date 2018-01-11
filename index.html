@@ -95,14 +95,15 @@
       ],
     });
     minimap.highlightName = 'hightlightPlace';
-    let names = ['position001', 'position002'];
+    let names = ['position001', 'position002', 'arrowDemo', 'styledemo'];
 
-    minimap.setCornPositionByNodeName('position001');
-    minimap.activeNodeName = 'position001';
 
     setInterval(() => {
       minimap.cornAngle += 0.5;
       minimap.setCornFov(Math.random() * 75);
+      minimap.activeNodeName = names[names.length * Math.random() << 0];
+      minimap.setCornPositionByNodeName(names[names.length * Math.random() << 0]);
+
     }, 13);
   </script>
 </body>
