@@ -40,6 +40,7 @@ export default class Minimap {
       pivotX = null,
       pivotY = null,
       rotation = null,
+      rotationRad = null,
       path,
       } = order;
 
@@ -49,7 +50,8 @@ export default class Minimap {
     if (height) container.height = height;
     if (pivotX) container.pivot.x = pivotX;
     if (pivotY) container.pivot.y = pivotY;
-    if (rotation) container.rotation = rotation;
+    if (rotation) container.rotation = rotation * degToRad;
+    if (rotationRad) container.rotation = rotationRad;
     if (scaleX) container.scale.x = scaleX;
     if (scaleY) container.scale.y = scaleY;
   }
@@ -260,12 +262,28 @@ export default class Minimap {
           },
         name = null,
         style = null,
+        type = 'node',
         } = nodeData;
 
-      const node = new Node(style ? merge.recursive(true, nodeStyle, style) : nodeStyle);
-      node.name = name;
-      node.position = position;
-      nodeContainer.addChild(node);
+      const graphicsStyle = style ? merge.recursive(true, nodeStyle, style) : nodeStyle;
+
+      let node;
+      switch (type) {
+        case 'arrow':
+          node = new Arrow(graphicsStyle);
+          node.name = name;
+          node.position = position;
+          nodeContainer.addChild(node);
+          break;
+        case 'node':
+        default :
+          node = new Node(graphicsStyle);
+          node.name = name;
+          node.position = position;
+          nodeContainer.addChild(node);
+          break;
+      }
+      Minimap.applyPositionDatum(graphicsStyle, node);
     });
 
     const {field} = this;
@@ -299,14 +317,50 @@ class Node extends Container {
       lineAlpha = 0.8,
       fillColor = 0xffffff,
       fillAlpha = 0.6,
-      circleRadius = 5,
+      size = 5,
       } = style;
 
     graphics.clear();
     graphics.lineStyle(lineWidth, lineColor, lineAlpha);
     graphics.beginFill(fillColor, fillAlpha);
-    graphics.drawCircle(0, 0, circleRadius);
+    graphics.drawCircle(0, 0, size);
     graphics.endFill();
+  }
+}
+
+class Arrow extends Container {
+  constructor(style = {}) {
+    super();
+    const graphics = this.graphics = new Graphics();
+    this.style = style;
+    this.addChild(graphics);
+
+    this.draw();
+  }
+  draw() {
+    const {
+      graphics,
+      style = {},
+      } = this;
+
+    const {
+      lineWidth = 2,
+      lineColor = 0xffffff,
+      lineAlpha = 0.8,
+      fillColor = 0xffffff,
+      fillAlpha = 0.6,
+      size = 5,
+      } = style;
+
+    graphics.clear();
+    graphics.lineStyle(lineWidth, lineColor, lineAlpha);
+
+    const radius = size / 2;
+    graphics.moveTo(-size, 0);
+    graphics.lineTo(size, 0);
+    graphics.moveTo(0, -size);
+    graphics.lineTo(size, 0);
+    graphics.lineTo(0, size);
   }
 }
 
