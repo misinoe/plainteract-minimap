@@ -136,7 +136,7 @@ export default class Minimap {
     for (let i = 0; i < children.length; i ++) {
       const node = children[i];
       node.scale.set(1, 1);
-      if (node.name !== null || node.name !== name) continue;
+      if (!node.name || node.name !== name) continue;
       node.scale.set(1.5, 1.5);
     }
   }
