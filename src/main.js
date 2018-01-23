@@ -154,7 +154,12 @@ export default class Minimap {
   setAdjustmentPositionForField() {
     const {nodeContainer} = this;
     const {children} = nodeContainer;
-    const cushion = 20;
+    const {
+      top = 20,
+      left = 20,
+      right = 20,
+      bottom = 20,
+      } = this.cushion || {};
 
     const {min, max} = Math;
     let minX = 0xffffff;
@@ -170,10 +175,10 @@ export default class Minimap {
       maxY = max(maxY, y);
     });
 
-    minX -= cushion;
-    minY -= cushion;
-    maxX += cushion;
-    maxY += cushion;
+    minX -= left;
+    minY -= top;
+    maxX += right;
+    maxY += bottom;
 
     const {
       field,
@@ -242,9 +247,12 @@ export default class Minimap {
     const {
       nodes = [],
       images = [],
+      cushion = {},
+      background,
       } = minimapData;
 
-    const {background} = minimapData;
+    this.cushion = cushion;
+
     const {
       color = 0x000000,
       alpha = 0.6,
